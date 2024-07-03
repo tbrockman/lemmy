@@ -1,14 +1,14 @@
 # syntax=docker/dockerfile:1.8
-ARG RUST_VERSION=1.78
-ARG CARGO_BUILD_FEATURES=default
-ARG RUST_RELEASE_MODE=debug
+ARG RUST_VERSION="1.78"
+ARG CARGO_BUILD_FEATURES="default"
+ARG RUST_RELEASE_MODE="debug"
 
-ARG AMD_BUILDER_IMAGE=rust:${RUST_VERSION}
+ARG AMD_BUILDER_IMAGE="rust:${RUST_VERSION}"
 # Repo: https://github.com/raskyld/lemmy-cross-toolchains
 ARG ARM_BUILDER_IMAGE="ghcr.io/raskyld/aarch64-lemmy-linux-gnu:v0.3.0"
 
-ARG AMD_RUNNER_IMAGE=debian:bookworm-slim
-ARG ARM_RUNNER_IMAGE=debian:bookworm-slim
+ARG AMD_RUNNER_IMAGE="debian:bookworm-slim"
+ARG ARM_RUNNER_IMAGE="debian:bookworm-slim"
 
 ARG UNAME=lemmy
 ARG UID=1000
@@ -28,16 +28,16 @@ COPY . ./
 # Debug build
 RUN --mount=type=cache,target=/lemmy/target set -ex; \
     if [ "${RUST_RELEASE_MODE}" = "debug" ]; then \
-        cargo build --features "${CARGO_BUILD_FEATURES}"; \
-        mv target/"${RUST_RELEASE_MODE}"/lemmy_server ./lemmy_server; \
+    cargo build --features "${CARGO_BUILD_FEATURES}"; \
+    mv target/"${RUST_RELEASE_MODE}"/lemmy_server ./lemmy_server; \
     fi
 
 # Release build
 RUN --mount=type=cache,target=/lemmy/target set -ex; \
     if [ "${RUST_RELEASE_MODE}" = "release" ]; then \
-        cargo clean --release; \
-        cargo build --features "${CARGO_BUILD_FEATURES}" --release; \
-        mv target/"${RUST_RELEASE_MODE}"/lemmy_server ./lemmy_server; \
+    cargo clean --release; \
+    cargo build --features "${CARGO_BUILD_FEATURES}" --release; \
+    mv target/"${RUST_RELEASE_MODE}"/lemmy_server ./lemmy_server; \
     fi
 
 # ARM64 builder
@@ -61,16 +61,16 @@ ENV RUST_RELEASE_MODE=${RUST_RELEASE_MODE} \
 # Debug build
 RUN --mount=type=cache,target=./target,uid=10001,gid=10001 set -ex; \
     if [ "${RUST_RELEASE_MODE}" = "debug" ]; then \
-        cargo build --features "${CARGO_BUILD_FEATURES}"; \
-        mv "./target/$CARGO_BUILD_TARGET/$RUST_RELEASE_MODE/lemmy_server" /home/lemmy/lemmy_server; \
+    cargo build --features "${CARGO_BUILD_FEATURES}"; \
+    mv "./target/$CARGO_BUILD_TARGET/$RUST_RELEASE_MODE/lemmy_server" /home/lemmy/lemmy_server; \
     fi
 
 # Release build
 RUN --mount=type=cache,target=./target,uid=10001,gid=10001 set -ex; \
     if [ "${RUST_RELEASE_MODE}" = "release" ]; then \
-        cargo clean --release; \
-        cargo build --features "${CARGO_BUILD_FEATURES}" --release; \
-        mv "./target/$CARGO_BUILD_TARGET/$RUST_RELEASE_MODE/lemmy_server" /home/lemmy/lemmy_server; \
+    cargo clean --release; \
+    cargo build --features "${CARGO_BUILD_FEATURES}" --release; \
+    mv "./target/$CARGO_BUILD_TARGET/$RUST_RELEASE_MODE/lemmy_server" /home/lemmy/lemmy_server; \
     fi
 
 

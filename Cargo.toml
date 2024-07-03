@@ -48,6 +48,12 @@ console = [
 ]
 json-log = ["tracing-subscriber/json"]
 default = []
+oidc = [
+  "dep:openidconnect",
+  "lemmy_api/oidc",
+  "lemmy_api_crud/oidc",
+  "lemmy_db_schema/oidc",
+]
 
 [workspace]
 members = [
@@ -206,6 +212,7 @@ prometheus = { version = "0.13.4", features = ["process"] }
 serial_test = { workspace = true }
 clap = { workspace = true }
 actix-web-prom = "0.8.0"
+openidconnect = { version = "3.5.0", optional = true }
 
 [dev-dependencies]
 pretty_assertions = { workspace = true }

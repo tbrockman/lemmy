@@ -35,10 +35,17 @@ pub async fn login(
       .await?
       .ok_or(LemmyErrorType::IncorrectLogin)?;
 
+  #[cfg(feature = "oidc")]
+  let Some(ref hash) = local_user_view.local_user.password_encrypted else {
+    Err(LemmyErrorType::IncorrectLogin)?
+  };
+  #[cfg(not(feature = "oidc"))]
+  let hash = &local_user_view.local_user.password_encrypted;
+
   // Verify the password
   let valid: bool = verify(
     &data.password,
-    &local_user_view.local_user.password_encrypted,
+    hash,
   )
   .unwrap_or(false);
   if !valid {

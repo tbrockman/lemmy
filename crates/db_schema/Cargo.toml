@@ -39,6 +39,7 @@ full = [
   "rustls",
   "i-love-jesus",
 ]
+oidc = []
 
 [dependencies]
 chrono = { workspace = true }

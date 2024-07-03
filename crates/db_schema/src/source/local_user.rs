@@ -13,6 +13,11 @@ use serde_with::skip_serializing_none;
 use ts_rs::TS;
 use typed_builder::TypedBuilder;
 
+#[cfg(feature = "oidc")]
+type PasswordEncryptedType = Option<SensitiveString>;
+#[cfg(not(feature = "oidc"))]
+type PasswordEncryptedType = SensitiveString;
+
 #[skip_serializing_none]
 #[derive(Clone, PartialEq, Eq, Debug, Serialize, Deserialize)]
 #[cfg_attr(feature = "full", derive(Queryable, Selectable, Identifiable, TS))]
@@ -25,7 +30,7 @@ pub struct LocalUser {
   /// The person_id for the local user.
   pub person_id: PersonId,
   #[serde(skip)]
-  pub password_encrypted: SensitiveString,
+  pub password_encrypted: PasswordEncryptedType,
   pub email: Option<SensitiveString>,
   /// Whether to show NSFW content.
   pub show_nsfw: bool,

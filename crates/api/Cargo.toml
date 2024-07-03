@@ -43,3 +43,6 @@ serial_test = { workspace = true }
 tokio = { workspace = true }
 elementtree = "1.2.3"
 pretty_assertions = { workspace = true }
+
+[features]
+oidc = ["lemmy_db_schema/oidc", "lemmy_db_views/oidc"]

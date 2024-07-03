@@ -26,6 +26,7 @@ full = [
   "i-love-jesus",
   "lemmy_db_schema/full",
 ]
+oidc = ["lemmy_db_schema/oidc"]
 
 [dependencies]
 lemmy_db_schema = { workspace = true }

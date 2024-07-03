@@ -34,7 +34,7 @@ services:
       # args:
       #   RUST_RELEASE_MODE: release
       #   CARGO_BUILD_FEATURES: default
-    # this hostname is used in nginx reverse proxy and also for lemmy ui to connect to the backend, do not change
+      # this hostname is used in nginx reverse proxy and also for lemmy ui to connect to the backend, do not change
     hostname: lemmy
     restart: unless-stopped
     environment:
@@ -49,6 +49,7 @@ services:
     depends_on:
       - postgres
       - pictrs
+    platform: linux/amd64
     logging: *default-logging
 
   lemmy-ui:
@@ -116,7 +117,7 @@ services:
         "-c",
         "auto_explain.log_triggers=true",
         "-c",
-        "track_activity_query_size=1048576",
+        "track_activity_query_size=1048576"
       ]
     ports:
       # use a different port so it doesn't conflict with potential postgres db running on the host

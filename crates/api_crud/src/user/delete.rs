@@ -18,10 +18,18 @@ pub async fn delete_account(
   context: Data<LemmyContext>,
   local_user_view: LocalUserView,
 ) -> LemmyResult<Json<SuccessResponse>> {
+
+  #[cfg(feature = "oidc")]
+  let Some(hash) = local_user_view.local_user.password_encrypted else {
+    Err(LemmyErrorType::IncorrectLogin)?
+  };
+  #[cfg(not(feature = "oidc"))]
+  let hash = &local_user_view.local_user.password_encrypted;
+
   // Verify the password
   let valid: bool = verify(
     &data.password,
-    &local_user_view.local_user.password_encrypted,
+    hash,
   )
   .unwrap_or(false);
   if !valid {

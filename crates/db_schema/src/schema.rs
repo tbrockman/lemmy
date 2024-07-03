@@ -427,16 +427,23 @@ diesel::table! {
     }
 }
 
+use diesel::sql_types::Text;
+#[cfg(feature = "oidc")]
+type PasswordEncryptedType = Nullable<Text>;
+#[cfg(not(feature = "oidc"))]
+type PasswordEncryptedType = Text;
+
 diesel::table! {
     use diesel::sql_types::*;
     use super::sql_types::SortTypeEnum;
     use super::sql_types::ListingTypeEnum;
     use super::sql_types::PostListingModeEnum;
+    use super::PasswordEncryptedType;
 
     local_user (id) {
         id -> Int4,
         person_id -> Int4,
-        password_encrypted -> Text,
+        password_encrypted -> PasswordEncryptedType,
         email -> Nullable<Text>,
         show_nsfw -> Bool,
         theme -> Text,

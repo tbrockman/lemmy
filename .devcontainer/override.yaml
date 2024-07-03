@@ -1,0 +1,17 @@
+services:
+  lemmy:
+    build:
+      context: ../
+      dockerfile: .devcontainer/Dockerfile
+    volumes:
+      - ../:/workspaces/lemmy:cached
+    command: sleep infinity
+    environment:
+      - LEMMY_DATABASE_URL=postgres://lemmy:password@postgres:5432/lemmy
+      - RUST_LOG="warn,lemmy_server=debug,lemmy_api=debug,lemmy_api_common=debug,lemmy_api_crud=debug,lemmy_apub=debug,lemmy_db_schema=debug,lemmy_db_views=debug,lemmy_db_views_actor=debug,lemmy_db_views_moderator=debug,lemmy_routes=debug,lemmy_utils=debug,lemmy_websocket=debug"
+      - RUST_BACKTRACE=full
+    ports:
+      - "10002:10002"
+    depends_on:
+      - postgres
+      - pictrs

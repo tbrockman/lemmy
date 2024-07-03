@@ -1,0 +1,20 @@
+{
+    "dockerComposeFile": "./docker-compose.yml",
+    "service": "lemmy",
+    "workspaceFolder": "/workspaces/lemmy",
+    "customizations": {
+        "vscode": {
+            "extensions": [
+                "rust-lang.rust-analyzer",
+                "serayuzgur.crates",
+                "njpwerner.autodocstring",
+                "vadimcn.vscode-lldb",
+                "tamasfe.even-better-toml",
+                "mads-hartmann.bash-ide-vscode",
+                "timonwong.shellcheck",
+                "github.copilot"
+            ]
+        }
+    },
+    "overrideCommand": false
+}
