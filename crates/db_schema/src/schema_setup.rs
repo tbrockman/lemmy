@@ -38,6 +38,17 @@ pub fn run(db_url: &str) -> Result<(), LemmyError> {
   let migrations = conn
     .pending_migrations(MIGRATIONS)
     .map_err(|e| anyhow::anyhow!("Couldn't determine pending migrations: {e}"))?;
+
+  #[cfg(not(feature = "oidc"))]
+  let migrations = migrations
+    .into_iter()
+    .filter(|m| {
+      !m.name()
+        .to_string()
+        .starts_with("2024-07-03-133130_nullable_password")
+    })
+    .collect::<Vec<_>>();
+
   for migration in migrations.iter().rev().skip(1).rev() {
     conn
       .run_migration(migration)
