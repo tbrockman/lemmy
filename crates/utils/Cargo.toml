@@ -22,6 +22,8 @@ required-features = ["full"]
 workspace = true
 
 [features]
+default = ["oidc"]
+
 full = [
   "dep:ts-rs",
   "dep:diesel",
@@ -51,7 +53,7 @@ full = [
   "dep:itertools",
   "dep:markdown-it",
 ]
-
+oidc = ["dep:openidconnect"]
 [dependencies]
 regex = { workspace = true, optional = true }
 tracing = { workspace = true, optional = true }
@@ -86,6 +88,8 @@ markdown-it = { version = "0.6.0", optional = true }
 ts-rs = { workspace = true, optional = true }
 enum-map = { workspace = true, optional = true }
 cfg-if = "1"
+openidconnect = { version = "3.5.0", optional = true }
+
 
 [dev-dependencies]
 reqwest = { workspace = true }

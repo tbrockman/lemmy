@@ -31,6 +31,12 @@ pub struct Login {
   pub totp_2fa_token: Option<String>,
 }
 
+#[cfg(feature = "oidc")]
+pub struct CodeExchange {
+  pub code: String,
+  pub state: String,
+}
+
 #[skip_serializing_none]
 #[derive(Debug, Serialize, Deserialize, Clone, Default, PartialEq, Eq, Hash)]
 #[cfg_attr(feature = "full", derive(TS))]

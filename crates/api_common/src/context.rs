@@ -1,3 +1,5 @@
+#[cfg(feature = "oidc")]
+use crate::oidc::OIDCProvider;
 use crate::request::client_builder;
 use activitypub_federation::config::{Data, FederationConfig};
 use lemmy_db_schema::{
@@ -17,6 +19,8 @@ pub struct LemmyContext {
   client: Arc<ClientWithMiddleware>,
   secret: Arc<Secret>,
   rate_limit_cell: RateLimitCell,
+  #[cfg(feature = "oidc")]
+  oidc_providers: Arc<Vec<OIDCProvider>>,
 }
 
 impl LemmyContext {
@@ -25,12 +29,15 @@ impl LemmyContext {
     client: ClientWithMiddleware,
     secret: Secret,
     rate_limit_cell: RateLimitCell,
+    #[cfg(feature = "oidc")] oidc_providers: Vec<OIDCProvider>,
   ) -> LemmyContext {
     LemmyContext {
       pool,
       client: Arc::new(client),
       secret: Arc::new(secret),
       rate_limit_cell,
+      #[cfg(feature = "oidc")]
+      oidc_providers: Arc::new(oidc_providers),
     }
   }
   pub fn pool(&self) -> DbPool<'_> {
@@ -69,7 +76,14 @@ impl LemmyContext {
 
     let rate_limit_cell = RateLimitCell::with_test_config();
 
-    let context = LemmyContext::create(pool, client, secret, rate_limit_cell.clone());
+    let context = LemmyContext::create(
+      pool,
+      client,
+      secret,
+      rate_limit_cell.clone(),
+      #[cfg(feature = "oidc")]
+      vec![],
+    );
     let config = FederationConfig::builder()
       .domain(context.settings().hostname.clone())
       .app_data(context)

@@ -106,6 +106,8 @@ mod tests {
       ClientBuilder::new(Client::default()).build(),
       secret,
       RateLimitCell::with_test_config(),
+      #[cfg(feature = "oidc")]
+      vec![],
     );
 
     let inserted_instance = Instance::read_or_create(pool, "my_domain.tld".to_string())

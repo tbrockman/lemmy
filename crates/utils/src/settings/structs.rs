@@ -1,3 +1,5 @@
+#[cfg(feature = "oidc")]
+use super::oidc::OIDCConfig;
 use doku::Document;
 use serde::{Deserialize, Serialize};
 use smart_default::SmartDefault;
@@ -58,6 +60,8 @@ pub struct Settings {
   #[default(None)]
   #[doku(example = "*")]
   cors_origin: Option<String>,
+  #[cfg(feature = "oidc")]
+  pub oidc: Option<OIDCConfig>,
 }
 
 impl Settings {

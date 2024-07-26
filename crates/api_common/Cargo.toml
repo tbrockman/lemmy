@@ -38,6 +38,7 @@ full = [
   "jsonwebtoken",
   "mime",
 ]
+oidc = []
 
 [dependencies]
 lemmy_db_views = { workspace = true }

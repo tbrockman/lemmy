@@ -119,4 +119,13 @@
   # Sets a response Access-Control-Allow-Origin CORS header
   # https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Access-Control-Allow-Origin
   cors_origin: "*"
+  oidc: {
+    providers: [
+      {
+        "client_id": "788579243813-ute3g05mo5i0oq4ltcfms2dqorm6qsdk.apps.googleusercontent.com",
+        "name": "google",
+        "url": "https://accounts.google.com"
+      }
+    ]
+  }
 }

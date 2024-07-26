@@ -427,10 +427,9 @@ diesel::table! {
     }
 }
 
+use diesel::sql_types::Text;
 #[cfg(feature = "oidc")]
 use diesel::sql_types::Nullable;
-#[cfg(feature = "oidc")]
-use diesel::sql_types::Text;
 #[cfg(feature = "oidc")]
 type PasswordEncryptedType = Nullable<Text>;
 #[cfg(not(feature = "oidc"))]

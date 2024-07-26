@@ -6,6 +6,8 @@ use regex::Regex;
 use std::{env, fs, io::Error};
 use urlencoding::encode;
 
+#[cfg(feature = "oidc")]
+pub mod oidc;
 pub mod structs;
 
 use structs::{DatabaseConnection, PictrsConfig, PictrsImageMode, Settings};
