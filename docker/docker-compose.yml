@@ -105,7 +105,7 @@ services:
     # You can use this technique to add them here
     # https://stackoverflow.com/a/30850095/1655478
     hostname: postgres
-    command: [ "postgres", "-c", "session_preload_libraries=auto_explain", "-c", "auto_explain.log_min_duration=5ms", "-c", "auto_explain.log_analyze=true", "-c", "auto_explain.log_triggers=true", "-c", "track_activity_query_size=1048576" ]
+    command: [ "postgres", "-c", "session_preload_libraries=auto_explain", "-c", "auto_explain.log_min_duration=5ms", "-c", "auto_explain.log_analyze=true", "-c", "auto_explain.log_triggers=true", "-c", "track_activity_query_size=1048576", "-c", "wal_level=logical" ]
     ports:
       # use a different port so it doesn't conflict with potential postgres db running on the host
       - "5434:5432"
@@ -117,14 +117,14 @@ services:
       - ./volumes/postgres:/var/lib/postgresql/data:Z
     restart: unless-stopped
     logging: *default-logging
+
   readyset:
     image: readysettech/readyset:latest
     ports:
       - "5433:5433"
       - "6034:6034"
     environment:
-      - UPSTREAM_DB_URL=postgres://lemmy:password@postgres:5434/lemmy
+      - UPSTREAM_DB_URL=postgres://lemmy:password@postgres:5432/lemmy
       - LISTEN_ADDRESS=0.0.0.0:5433
-    command:
-      - /app/readyset
-      - start
+    depends_on:
+      - postgres
