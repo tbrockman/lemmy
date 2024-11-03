@@ -24,5 +24,7 @@
     image_mode: None
   }
 
+  cors_origin: "*"
+  
   #opentelemetry_url: "http://otel:4137"
 }
